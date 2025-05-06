@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Example</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid" id="gridContainer"></div>
+
+<script>
+  let clickCt = 0;
+ const gridContainer = document.getElementById("gridContainer");
+ const NUM_CELLS = 9;
+ for( let i=0; i< NUM_CELLS; i++){
+   let cell = document.createElement("div");
+   cell.classList.add( "cell");
+   cell.setAttribute("data-index", i);
+   cell.setAttribute("data-row", Math.floor( i/3));
+   cell.addEventListener( 'click', function() {
+         clickCt++;
+         let itemNumb = cell.getAttribute("data-index");
+         let rowNum = cell.getAttribute("data-row");
+         alert( `Cell item:${itemNumb} row:${rowNum} ct:${clickCt}`);
+   })
+   gridContainer.appendChild(cell);
+ }
+
+</script>
+
+</body>
+</html>

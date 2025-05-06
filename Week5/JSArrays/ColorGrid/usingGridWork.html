@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Example</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid" id="gridContainer"></div>
+
+<script>
+  const gridContainer = document.getElementById('gridContainer');
+
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.textContent = i + 1;
+
+    // Setting attributes to store extra data
+    cell.setAttribute('data-index', i);
+    cell.setAttribute('data-row', Math.floor(i / 3));
+
+    // Event listener to read attributes
+    cell.addEventListener('click', function() {
+      const index = cell.getAttribute('data-index');
+      const row = cell.getAttribute('data-row');
+      alert(`Cell ${index} is in row ${row}`);
+    });
+
+    gridContainer.appendChild(cell);
+  }
+</script>
+
+</body>
+</html>

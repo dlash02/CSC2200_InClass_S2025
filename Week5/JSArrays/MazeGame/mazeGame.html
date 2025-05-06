@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Game</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .grid { display: inline-grid; grid-template-columns: repeat(5, 50px); }
+        .cell { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid black; font-size: 24px; }
+        .wall { background: black; }
+        .player { background: blue; color: white; }
+        .goal { background: green; color: white; }
+    </style>
+    <script src="js/mazeGame_inclass_2_26.js"></script>
+<!--    <script src="js/mazeGame.js"></script>-->
+</head>
+<body onLoad="drawBoard()">
+<h1>Maze Game</h1>
+<p>Use arrow keys to move.</p>
+<div id="gameBoard" class="grid"></div>
+</body>
+</html>

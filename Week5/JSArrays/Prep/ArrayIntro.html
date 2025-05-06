@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Array Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      text-align: left;
+    }
+    input {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<h1>JavaScript Array Features</h1>
+<input type="text" id="itemInput" placeholder="Enter an item">
+<button onclick="addItem()">Add Item</button>
+<button onclick="demonstrateArrayFeatures()">Demonstrate Features</button>
+<div id="output"></div>
+
+<script>
+  let arr = ["Apple", "Banana", "Cherry"];
+  function addItem() {
+    let input = document.getElementById("itemInput").value;
+    if (input) {
+      arr.push(input);
+      document.getElementById("itemInput").value = "";
+      displayArray("After Adding Item:", arr);
+    }
+  }
+  function demonstrateArrayFeatures() {
+    let output = document.getElementById("output");
+    output.innerHTML = "";
+    displayArray("Initial Array:", arr);
+    arr.push("Dragonfruit");
+    displayArray("After Push:", arr);
+    arr.pop();
+    displayArray("After Pop:", arr);
+    arr.shift();
+    displayArray("After Shift:", arr);
+    arr.unshift("Avocado");
+    displayArray("After Unshift:", arr);
+    arr.splice(1, 0, "Blueberry");
+    displayArray("After Splice:", arr);
+    let mappedArr = arr.map(item => item.toUpperCase());
+    displayArray("Mapped (Uppercase) Array:", mappedArr);
+    let filteredArr = arr.filter(item => item.startsWith("B"));
+    displayArray("Filtered (Starts with B):", filteredArr);
+    let foundItem = arr.find(item => item.startsWith("C"));
+    output.innerHTML += `<p>Found (Starts with C): ${foundItem}</p>`;
+    arr.reverse();
+    displayArray("After Reverse:", arr);
+  }
+  function displayArray(description, array) {
+    let output = document.getElementById("output");
+    output.innerHTML += `<p>${description} ${JSON.stringify(array)}</p>`;
+  }
+</script>
+</body>
+</html>
+

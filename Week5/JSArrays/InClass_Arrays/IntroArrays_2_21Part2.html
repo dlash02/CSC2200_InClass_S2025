@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All about arrays</title>
+    <script>
+      function startItUp() {
+        let ages = [ 18, 16, 17, 22, 25, 26, 2.7, 13, 12 ];
+        let canVote = ages.filter( function( age ){
+            return age >= 18;
+        });
+
+        console.log( canVote );
+
+        let birds = [ "Robin", "Cardinal", "Hawk", "Eagle"];
+        birds.sort();
+        console.log(birds);
+
+        // document.getElementById("results").innerHTML = oStr;
+      }
+    </script>
+</head>
+<body>
+   <div id="results"> </div>
+   <button onClick="startItUp()"> Click Me</button>
+</body>
+</html>

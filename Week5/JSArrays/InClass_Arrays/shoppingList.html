@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script>
+    let myList = [];
+    function addTheItem(){
+      let item = document.getElementById("item").value;
+      myList.push( item );
+      let oList = "<ol>";
+      // for( let i=0; i<myList.length; i++){
+      //   oList += `<li> ${myList[i]} </li>`;
+      // }
+      myList.forEach((name,index) => {
+          oList += `<li> ${name} index:${index} </li>`;
+      })
+      oList += "</ol>";
+      document.getElementById("results").innerHTML = oList;
+    }
+  </script>
+
+</head>
+<body>
+  <h2> My Shopping List </h2>
+  <input type="text" id="item" placeholder="Enter Item to Add"/>
+  <button type="button" id="addItem" onclick="addTheItem();"> Add Item </button>
+  <div id="results">
+    <ol id="myOl"> </ol>
+  </div>
+</body>
+</html>

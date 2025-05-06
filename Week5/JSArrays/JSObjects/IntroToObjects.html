@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+      let person = {};
+      person.name = "Jack";
+      person.age = 22;
+      let person2 = {
+        name : "Jill",
+        age : 32,
+        'plays instrument' : 'trumpet',
+        major: ["CSC", "CYB"],
+        interest: ["music", "soccer"],
+        showInterest: function(){
+          for( let i=0; i< this.interest.length; i++ ){
+            alert( "M=" + this.interest[i]);
+          }
+        },
+        stuff : undefined
+      }
+      function doStuff() {
+        let res = document.getElementById("results");
+        // res.innerText = person2.name;
+        let istru = "plays instrument"
+        let plays = person2[istru];
+        alert( `plays:${plays}`);
+        for( let i=0; i< person2.major.length; i++ ){
+          alert( "M=" + person2.major[i]);
+        }
+        person2.showInterest();
+      }
+    </script>
+</head>
+<body onLoad="doStuff()">
+  <h2> Hello World</h2>
+  <div id="results"> results are here </div>
+</body>
+</html>

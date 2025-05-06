@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All about arrays</title>
+    <script>
+      function startItUp() {
+        // let myFruits = [];
+        // let myFruits = new Array(4);
+        // let myFruits = [ "Apples", "Banana", "Cherry", 99];
+        let myFruits = [ "Apples", "Banana", "Cherry"];
+        // let myFruits = new Array("Ap", "Ba", "Ch");
+        let cherry = myFruits[2];
+        myFruits.unshift("Oranges");
+        myFruits.push( "Donuts");
+        console.log( myFruits);
+
+        let item = myFruits.pop();  // rem last item
+        let item2 = myFruits.shift();  // remove first item
+        console.log("-----------------")
+        console.log( myFruits);
+
+        let oStr = "";
+        for( let i=0; i<myFruits.length; i++){
+           oStr += `<br /> Item:${myFruits[i]}`;
+        }
+        document.getElementById("results").innerHTML = oStr;
+      }
+    </script>
+</head>
+<body>
+   <div id="results"> </div>
+   <button onClick="startItUp()"> Click Me</button>
+</body>
+</html>

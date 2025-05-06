@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Scrambler Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    #scrambledWord {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 20px;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+    #feedback.wrong {
+      color: red;
+    }
+  </style>
+  <script>
+    const words = ["loop", "array", "for", "while", "object"];
+    let originalWord = words[Math.floor(Math.random() * words.length)];
+
+    function showWord() {
+      const scrambledWord = scramble(originalWord);
+      document.getElementById("scrambledWord").textContent = scrambledWord;
+    }
+      function scramble(word) {
+        const letters = word.split(""); // Convert word to an array of letters
+        for (let i = letters.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1)); // Random index
+          [letters[i], letters[j]] = [letters[j], letters[i]]; // Swap letters
+        }
+        return letters.join(""); // Join letters back into a string
+      }
+
+    function playGame(){
+      const userGuess = document.getElementById("guessInput").value.toLowerCase();
+      const feedback = document.getElementById("feedback");
+
+      if (userGuess === originalWord) {
+        feedback.textContent = "Correct! Great job!";
+        feedback.classList.remove("wrong");
+      } else {
+        feedback.textContent = "Try again!";
+        feedback.classList.add("wrong");
+      }
+    }
+
+  </script>
+</head>
+<body onLoad="showWord()">
+<h1>Word Scrambler Game</h1>
+<p id="scrambledWord"></p>
+<input type="text" id="guessInput" placeholder="Guess the word" />
+<button id="submitGuess" onClick="playGame()">Submit</button>
+<p id="feedback"></p>
+</body>
+</html>

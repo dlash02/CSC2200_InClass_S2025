@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game with 2D Array</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .game-stats {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-template-rows: repeat(4, 80px);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tile {
+      width: 80px;
+      height: 80px;
+      background-color: #3498db;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .tile:hover {
+      transform: scale(1.05);
+    }
+    .tile-content {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .flipped .tile-content {
+      opacity: 1;
+    }
+    .flipped {
+      background-color: #e74c3c;
+    }
+    .matched {
+      background-color: #2ecc71;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<h1>Memory Game with 2D Array</h1>
+<div class="game-stats">
+  <p>Moves: <span id="moves">0</span> | Matches: <span id="matches">0</span></p>
+</div>
+<div class="game-board" id="gameBoard"></div>
+<button id="resetButton">Reset Game</button>
+<script>
+  let gameBoard = [];
+  let flippedTiles = [];
+  let matchedPairs = 0;
+  let moveCount = 0;
+  const boardSize = 4; // 4x4 board
+  const totalPairs = (boardSize * boardSize) / 2;
+  function initGame() {
+    gameBoard = [];
+    flippedTiles = [];
+    matchedPairs = 0;
+    moveCount = 0;
+    updateStats();
+
+    // Create the 2D array for the game board
+    for (let i = 0; i < boardSize; i++) {
+      gameBoard[i] = [];
+      for (let j = 0; j < boardSize; j++) {
+        gameBoard[i][j] = {
+          value: null,
+          flipped: false,
+          matched: false
+        };
+      }
+    }
+
+    // Generate pairs of values (1 through 8, each appearing twice)
+    const values = [];
+    for (let i = 1; i <= totalPairs; i++) {
+      values.push(i);
+      values.push(i);
+    }
+    shuffleArray(values);
+
+    let valueIndex = 0;
+    for (let i = 0; i < boardSize; i++) {
+      for (let j = 0; j < boardSize; j++) {
+        gameBoard[i][j].value = values[valueIndex++];
+      }
+    }
+    renderBoard();
+  }
+
+  // Shuffle array (Fisher-Yates algorithm)
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  function renderBoard() {
+    const boardElement = document.getElementById('gameBoard');
+    boardElement.innerHTML = '';
+
+    for (let i = 0; i < boardSize; i++) {
+      for (let j = 0; j < boardSize; j++) {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+
+        if (gameBoard[i][j].flipped) {
+          tile.classList.add('flipped');
+        }
+
+        if (gameBoard[i][j].matched) {
+          tile.classList.add('matched');
+        }
+
+        const tileContent = document.createElement('div');
+        tileContent.className = 'tile-content';
+        tileContent.textContent = gameBoard[i][j].value;
+
+        tile.appendChild(tileContent);
+        tile.dataset.row = i;
+        tile.dataset.col = j;
+
+        tile.addEventListener('click', handleTileClick);
+
+        boardElement.appendChild(tile);
+      }
+    }
+  }
+  function handleTileClick(event) {
+    const row = parseInt(event.currentTarget.dataset.row);
+    const col = parseInt(event.currentTarget.dataset.col);
+
+    // Ignore click if tile is already flipped or matched
+    if (gameBoard[row][col].flipped || gameBoard[row][col].matched) {
+      return;
+    }
+
+    // Ignore click if two tiles are already flipped
+    if (flippedTiles.length >= 2) {
+      return;
+    }
+    gameBoard[row][col].flipped = true;
+    flippedTiles.push({ row, col });
+    // Update the board
+    renderBoard();
+    // If we have two flipped tiles, check for a match
+    if (flippedTiles.length === 2) {
+      moveCount++;
+      updateStats();
+      const firstTile = flippedTiles[0];
+      const secondTile = flippedTiles[1];
+
+      if (gameBoard[firstTile.row][firstTile.col].value ===
+              gameBoard[secondTile.row][secondTile.col].value) {
+        // Match found
+        gameBoard[firstTile.row][firstTile.col].matched = true;
+        gameBoard[secondTile.row][secondTile.col].matched = true;
+        matchedPairs++;
+        updateStats();
+
+        // Reset flipped tiles
+        flippedTiles = [];
+
+        // Check if game is complete
+        if (matchedPairs === totalPairs) {
+          setTimeout(() => {
+            alert(`Congratulations! You completed the game in ${moveCount} moves!`);
+          }, 500);
+        }
+      } else {
+        // No match, flip tiles back after a delay
+        setTimeout(() => {
+          gameBoard[firstTile.row][firstTile.col].flipped = false;
+          gameBoard[secondTile.row][secondTile.col].flipped = false;
+          flippedTiles = [];
+          renderBoard();
+        }, 1000);
+      }
+    }
+  }
+  function updateStats() {
+    document.getElementById('moves').textContent = moveCount;
+    document.getElementById('matches').textContent = matchedPairs;
+  }
+  document.getElementById('resetButton').addEventListener('click', initGame);
+  window.addEventListener('load', initGame);
+</script>
+</body>
+</html>
